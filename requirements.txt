@@ -12,3 +12,5 @@ pillow
 google-auth
 google-api-python-client
 requests>=2.31.0
+cloudinary
+django-cloudinary-storage

@@ -48,12 +48,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', #for API development
     'corsheaders', #for handling Cross-Origin Resource Sharing (CORS)
+    "cloudinary",
+    "cloudinary_storage",
     'tourauth',
     'rest_framework_simplejwt',
     'tours',
     'offers',
     'Blog',
 ]
+
+
+import cloudinary
+import os
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUD_NAME"),
+    api_key=os.getenv("API_KEY"),
+    api_secret=os.getenv("API_SECRET"),
+)
 
 # CORS configuration — allow your deployed frontend
 CORS_ALLOWED_ORIGINS = [
@@ -145,6 +157,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
     'staticfiles': {
         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
     },
