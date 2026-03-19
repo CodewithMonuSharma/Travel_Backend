@@ -1,0 +1,19 @@
+databases:
+  - name: mongodb-atlas
+    plan: external
+
+services:
+  - type: web
+    name: travel-backend
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn backend.wsgi:application"
+    envVars:
+      - key: url
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.13.0"
