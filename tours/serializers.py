@@ -2,31 +2,37 @@ from rest_framework import serializers
 from .models import TourPackage, TourInclusion, TourExclusion, TourItinerary, AvailableTravelDate
 
 class TourInclusionSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     class Meta:
         model = TourInclusion
         fields = ['id', 'text']
 
 class TourExclusionSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     class Meta:
         model = TourExclusion
         fields = ['id', 'text']
 
 class TourItinerarySerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     class Meta:
         model = TourItinerary
         fields = ['id', 'day_number', 'title', 'description']
 
 class AvailableTravelDateSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     class Meta:
         model = AvailableTravelDate
         fields = ['id', 'date']
 
 class TourPackageListSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     class Meta:
         model = TourPackage
         fields = ['id', 'title', 'slug', 'location', 'rating', 'duration', 'short_description', 'starting_price', 'hero_image']
 
 class TourPackageDetailSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     inclusions = TourInclusionSerializer(many=True, read_only=True)
     exclusions = TourExclusionSerializer(many=True, read_only=True)
     itinerary_days = TourItinerarySerializer(many=True, read_only=True)
