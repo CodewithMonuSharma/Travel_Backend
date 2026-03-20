@@ -1,8 +1,10 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
+from .models import Subscriber
 
 class UserSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'first_name', 'last_name')
@@ -24,3 +26,10 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+class SubscriberSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
+    class Meta:
+        model = Subscriber
+        fields = ('id', 'email', 'subscribed_at')
+        read_only_fields = ('subscribed_at',)

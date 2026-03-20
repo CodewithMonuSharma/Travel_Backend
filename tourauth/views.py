@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
-from .serializers import UserRegistrationSerializer, UserSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer, SubscriberSerializer
+from .models import Subscriber
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -52,3 +53,16 @@ class GoogleLoginView(APIView):
             
         except ValueError:
             return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+
+class SubscribeView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = SubscriberSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Subscribed successfully!'}, status=status.HTTP_201_CREATED)
+        # If email already exists, return a friendly message
+        if 'email' in serializer.errors:
+            return Response({'message': 'You are already subscribed!'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
